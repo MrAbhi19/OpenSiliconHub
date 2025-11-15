@@ -6,7 +6,8 @@ module Gray_counter #(
   input  wire en,      
   output reg [$clog2(SIZE)-1:0] gray
 );
-  localparam WIDTH= (SIZE>1) ? SIZE-1 : 1;
+  localparam [$clog2(SIZE)-1:0] WIDTH= (SIZE>1) ? SIZE-1 : 1;
+  
   reg [$clog2(SIZE)-1:0] binary;
 
   always @(posedge clk or posedge reset) begin
