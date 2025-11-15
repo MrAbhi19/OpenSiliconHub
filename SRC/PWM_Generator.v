@@ -1,4 +1,4 @@
-module pwm_gen#(
+module PWM_Generator #(
   parameter PERIOD=100
 )(
   input wire clk,
