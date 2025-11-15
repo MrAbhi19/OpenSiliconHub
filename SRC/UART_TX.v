@@ -1,4 +1,4 @@
-module uart_tx(clk,reset,tx_start,data,tx_line,tx_busy,tx_done);
+module UART_TX(clk,reset,tx_start,data,tx_line,tx_busy,tx_done);
   parameter clk_freq=50000000;
   parameter baud_rate=9600;
 
