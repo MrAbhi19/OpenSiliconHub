@@ -94,6 +94,5 @@ For proposals or questions, start a GitHub Discussion before a PR.
 ## 📬 Contact / Discussions
 
 For module requests, ideas, improvements, or collaboration, use the **GitHub Discussions** section of this repository.
-# HDL Library
 
-![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/lint.yml/badge.svg)
+[![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/lint.yml)
