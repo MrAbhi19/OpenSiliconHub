@@ -1,4 +1,4 @@
-module spi_master(
+module Spi_Master(
   input wire clk,
   input wire reset_n, //active low
   input wire start,
