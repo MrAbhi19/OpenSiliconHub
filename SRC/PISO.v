@@ -1,4 +1,4 @@
-module piso #(
+module PISO #(
   parameter SIZE = 8,
   parameter SHIFT_DIR = 0   
 )(
