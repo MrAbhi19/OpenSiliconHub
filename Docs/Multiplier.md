@@ -1,5 +1,5 @@
 # *Multiplier*
-### *(Source: [Multiplier.v](../SRC/Multiplier.v))*
+### *(Source: [Multiplier.v](../RTL/Multiplier.v))*
 ## *About*
 - Multiplier is a combinational circuits that takes 2 binary numbers as inputs and gives their product as output<br>
 - It has 2 Inputs of sizes 'm' and 'n' and 1 output of size 'm + n'<br>
