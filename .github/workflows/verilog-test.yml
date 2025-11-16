@@ -1,4 +1,4 @@
-name: Verilog Simulation
+hesname: Verilog Simulation
 
 on:
   push:
@@ -19,5 +19,5 @@ jobs:
 
     - name: Compile and run testbench
       run: |
-        iverilog -g2012 -o simv RTL/Multiplier.v Tests/Multiplier_tb.sv
+        iverilog -g2012 -o simv RTL/Multiplier.v Testbenches/Multiplier_tb.sv
         vvp simv
