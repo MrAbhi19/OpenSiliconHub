@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-    - 'SRC/**'
+    - 'RTL/**'
   pull_request:
     branches: [ main ]
     paths:
-    - 'SRC/**'
+    - 'RTL/**'
 
 jobs:
   lint:
@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "Running per-file Verilator strict lint..."
           status=0
-          for file in SRC/*.v; do
+          for file in RTL/*.v; do
             echo "--------------------------------------------"
             echo "Linting $file ..."
             verilator --lint-only -Wall -Wpedantic --bbox-sys --error-limit 1 "$file" || status=1
@@ -39,4 +39,4 @@ jobs:
       - name: Run Verible Lint (optional)
         run: |
           echo "Running Verible linter..."
-          verible-verilog-lint SRC/*.v || true
+          verible-verilog-lint RTL/*.v || true
