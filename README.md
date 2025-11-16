@@ -1,4 +1,4 @@
-# Verilog Modules Library [![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml)
+# Verilog Modules Library [![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml)          [![Verilog Simulation](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml)
 
 ![License](https://img.shields.io/github/license/MrAbhi19/Verilog_Library)
 
