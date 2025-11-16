@@ -1,4 +1,4 @@
-module bi_count #(
+module Bi_count #(
   parameter SIZE = 1000
 )(
   input  wire clk,
