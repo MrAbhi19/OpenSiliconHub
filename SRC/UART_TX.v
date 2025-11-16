@@ -8,10 +8,9 @@ module UART_TX#(
 );
   
   localparam clks_per_bit=clk_freq/baud_rate;
-  reg [15:0] clk_count;
+  reg [$clog2(clks_per_bit)-1:0] clk_count;
   reg [3:0] bit_index;
   reg [9:0] s_reg;
-  initial s_reg<=10'b1111111111;
 
   always@(posedge clk or posedge reset) begin
     if (reset) begin
@@ -20,6 +19,7 @@ module UART_TX#(
       bit_index<=0;
       tx_line<=1;
       tx_done<=0;
+      s_reg<=10'b1111111111;
     end else begin
       if (tx_start && !tx_busy) begin
         s_reg<={1'b1,data,1'b0};
@@ -28,7 +28,7 @@ module UART_TX#(
         bit_index<=0;
         tx_done<=0;
       end else if (tx_busy) begin
-        if (clk_count<clks_per_bit-1)
+        if (clk_count<$clog2(clks_per_bit)'(clks_per_bit-1))
           clk_count<=clk_count+1;
         else begin
           clk_count<=0;
