@@ -85,7 +85,7 @@ module UART_RX #(
             rx_done <= 1;
             rx_busy <= 0;
             state <= IDLE;
-            rx_error <= (s_reg[9] != 1'b1); // stop bit must be 1
+            rx_error <= (s_reg[9] != 1'b1 || s_reg[0]==1'b1); // stop bit must be 1
           end else begin
             clk_count <= clk_count + 1;
           end
