@@ -2,9 +2,9 @@ module UART_TX#(
   parameter clk_freq=50000000,
   parameter baud_rate=9600
 )(
-  input wire clk,reset,tx_start;
-  input wire [7:0] data;
-  output reg tx_line,tx_busy,tx_done;
+  input wire clk,reset,tx_start,
+  input wire [7:0] data,
+  output reg tx_line,tx_busy,tx_done
 );
   
   localparam clks_per_bit=clk_freq/baud_rate;
