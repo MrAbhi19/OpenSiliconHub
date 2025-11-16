@@ -6,7 +6,7 @@
 - Commonly used in serial communication systems, data serialization, and interfacing parallel data with serial channels.<br>
 
 ### *Parameters*
-- `SIZE` – Bit width of input `in` and total number of bits shifted out.
+- `WIDTH` – Bit width of input `in` and total number of bits shifted out.
 - `SHIFT_DIR` – Shift direction (0 = Left, 1 = Right).
 
 ## *Instantiation*
@@ -14,7 +14,7 @@ To use the `PISO` module in your design:
 
 ```verilog
 PISO #(
-  .SIZE(8),        // Width of input data
+  .WIDTH(8),        // Width of input data
   .SHIFT_DIR(0)    // Shift direction: 0=Left, 1=Right
 ) u_piso (
   .in(data_in),    // Parallel input data
@@ -49,4 +49,4 @@ SHIFT_DIR=0 → Left shift (LSB first).
 SHIFT_DIR=1 → Right shift (MSB first).
 - Completion:<br> When all bits are shifted out, done=1 and busy=0. Counter resets to 0 for next operation.
 - Sequential nature:<br> Updates occur on rising edge of clk or reset. Synthesizable as flip-flops with control logic.
-- Parameterization:<br> Output sequence length is determined by SIZE. Direction is controlled by SHIFT_DIR.
+- Parameterization:<br> Output sequence length is determined by WIDTH. Direction is controlled by SHIFT_DIR.
