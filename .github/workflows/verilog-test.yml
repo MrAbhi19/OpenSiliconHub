@@ -21,6 +21,11 @@ jobs:
       run: |
         iverilog -g2012 -o simv RTL/Multiplier.v Testbenches/Multiplier_tb.sv
         vvp simv
+
+    - name: Compile and run testbench Barrel_shifter
+      run: |
+        iverilog -g2012 -o simv RTL/Barrel_shifter.v Testbenches/Barrel_shifter_tb.sv
+        vvp simv
         
     - name: Compile and run testbench MAC
       run: |
