@@ -1,10 +1,10 @@
 module Multiplier #(
-  parameter A=4,
-  parameter B=6
+  parameter WIDTH_A=4,
+  parameter WIDTH_B=6
 )(
-  input [A-1:0] in1,
-  input [B-1:0] in2,
-  output [A+B-1:0] out
+  input [WIDTH_A-1:0] in1,
+  input [WIDTH_B-1:0] in2,
+  output [WIDTH_A+WIDTH_B-1:0] out
 );
   assign out=in1*in2;
 endmodule
