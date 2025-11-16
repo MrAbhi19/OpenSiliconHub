@@ -1,4 +1,4 @@
-module Spi_Master(
+module SPI_Master(
   input wire clk,
   input wire reset_n, //active low
   input wire start,
@@ -55,6 +55,7 @@ module Spi_Master(
             data_out<=shift_reg;
             STATE<=IDLE;
           end
+        default: STATE <= IDLE;
       endcase
     end
   end
