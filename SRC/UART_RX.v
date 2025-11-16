@@ -64,7 +64,7 @@ module UART_RX(
         end
 
         DATA: begin
-          if (clk_count == 16'd(clks_per_bit - 1) begin
+          if (clk_count == 16'd(clks_per_bit - 1)) begin
             clk_count <= 0;
             s_reg[bit_index + 1] <= rx_line; // bits 1 to 8
             bit_index <= bit_index + 1;
