@@ -1,4 +1,4 @@
-# Verilog Modules Library  [![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml) [![Verilog Simulation](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml)  
+# Verilog Modules Library ![Repo Users](https://img.shields.io/badge/Repo%20Users-428%20as%20of%2021%20Nov%202025-blue) [![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml) [![Verilog Simulation](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml) 
 ![License](https://img.shields.io/github/license/MrAbhi19/Verilog_Library)
 
 A growing collection of **reusable, parameterized Verilog modules** for learning, prototyping, and integrating into larger digital design projects.  
