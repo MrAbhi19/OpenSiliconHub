@@ -1,4 +1,4 @@
-module Multiplier_piped #(
+module Multiplier #(
   parameter WIDTH_A = 4,
   parameter WIDTH_B = 6,
   parameter DELAY   = 5   // number of pipeline stages
