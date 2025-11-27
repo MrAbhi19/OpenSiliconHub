@@ -70,7 +70,7 @@ This index provides quick access to all modules in the repository along with the
 | **Bi-directional Counter** | [Bi_count.v](./RTL/Bi_count.v) | Pending                            | Pending          | [Bi_count.md](./Docs/Bi_count.md) | Pending          |
 | **Gray Counter**   | [Gray_counter.v](./RTL/Gray_counter.v) | Pending                            | Pending          | [Gray_counter.md](./Docs/Gray_counter.md) | Pending          |
 | **MAC**            | [MAC.v](./RTL/MAC.v)     | [MAC_tb.sv](./Testbenches/MAC_tb.sv) | Pending          | [MAC.md](./Docs/MAC.md)      | Pending          |
-| **Matrix multiplier** | [Matrix_multiplier.v](./RTL/Matrix_multiplier.v) | Pending | Pending |  [Matrix_multiplier.md](./Docs/Matrix_multiplier.md) | Pending | 
+| **Matrix multiplier** | [Matrix_multiplier.v](./RTL/Matrix_multiplier.v) | [Matrix_multiplier_tb.sv](./Testbenches/Matrix_multiplier_tb.sv) | Pending |  [Matrix_multiplier.md](./Docs/Matrix_multiplier.md) | Pending | 
 | **Modulo Counter** | [Modulo_counter.v](./RTL/Modulo_counter.v) | Pending                            | Pending          | [Modulo_counter.md](./Docs/Modulo_counter.md) | Pending          |
 | **Multiplier**     | [Multiplier.v](./RTL/Multiplier.v) | [Multiplier_tb.sv](./Testbenches/Multiplier_tb.sv) | Pending          | [Multiplier.md](./Docs/Multiplier.md) | Pending          |
 | **PIPO**           | [PIPO.v](./RTL/PIPO.v)   | Pending                            | Pending          | [PIPO.md](./Docs/PIPO.md)    | Pending          |
