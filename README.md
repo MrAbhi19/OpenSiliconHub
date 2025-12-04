@@ -1,5 +1,5 @@
 # Verilog Modules Library 
-[![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-lint.yml) [![Verilog Simulation](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml) 
+[![Verilog Lint (Strict Mode)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/linting.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/linting.yml) [![Verilog Simulation](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml) 
 
 
 A growing collection of **reusable, parameterized Verilog modules** for learning, prototyping, and integrating into larger digital design projects.  
