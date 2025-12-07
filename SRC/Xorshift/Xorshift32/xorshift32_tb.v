@@ -21,7 +21,7 @@
 
 `timescale 1ns/1ps
 
-module tb_xorshift32;
+module xorshift32_tb;
 
   // Testbench signals
   reg clk;                 // Clock signal
