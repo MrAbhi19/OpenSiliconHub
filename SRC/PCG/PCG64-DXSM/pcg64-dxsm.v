@@ -25,6 +25,7 @@ module pcg_dxsm (
 
   reg [127:0] state;       // 128-bit internal state
   reg [63:0] state1;       // High 64 bits of state
+  reg [63:0] z;
 
   // Constants for LCG
   localparam [127:0] MULT = 128'h2360ED051FC65DA44385DF649FCCF645; // PCG64 multiplier
@@ -45,7 +46,6 @@ module pcg_dxsm (
       // Step 3: Apply DXSM permutation
       // DXSM: Double XOR Shift Multiply
       // Scrambles state1 with XOR-shifts and multiplications
-      reg [63:0] z;
       z = state1;
       z = (z ^ (z >> 32)) * 64'h9E3779B97F4A7C15; // First scramble
       z = (z ^ (z >> 29)) * 64'hBF58476D1CE4E5B9; // Second scramble
