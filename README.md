@@ -89,4 +89,5 @@ For module requests, ideas, improvements, or collaboration, use the **GitHub Dis
 
 ## 📜 License
 This project is licensed under the MIT License — see [LICENSE](./LICENSE) for details.
+
 ---
