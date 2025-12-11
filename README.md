@@ -1,6 +1,5 @@
 <h1 align="center">OpenSiliconHub</h1>
 
-
 <p align="center">
   <!-- Verilog Lint Badge -->
   <a href="https://github.com/MrAbhi19/Verilog_Library/actions/workflows/linting.yml">
@@ -9,6 +8,14 @@
   <!-- Verilog Simulation Badge -->
   <a href="https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml">
     <img src="https://github.com/MrAbhi19/Verilog_Library/actions/workflows/verilog-test.yml/badge.svg" alt="Verilog Simulation">
+  </a>
+  <!-- GitHub Release Badge -->
+  <a href="https://github.com/MrAbhi19/OpenSiliconHub/releases">
+    <img src="https://img.shields.io/github/release/MrAbhi19/OpenSiliconHub.svg" alt="GitHub Release">
+  </a>
+  <!-- Zenodo DOI Badge -->
+  <a href="https://doi.org/10.5281/zenodo.17895634">
+    <img src="https://zenodo.org/badge/1097102485.svg" alt="DOI">
   </a>
 </p>
 
@@ -80,6 +87,25 @@ If you run into any issues or want help contributing, feel free to open a Discus
 - **Xilinx Artix-7 XC7A35T**
 
 ---
+---
+
+## 📖 Citation
+
+If you use this work in your research, please cite it using the Zenodo DOI:
+
+[![DOI](https://zenodo.org/badge/1097102485.svg)](https://doi.org/10.5281/zenodo.17895634)
+
+### BibTeX
+```bibtex
+@misc{OpenSiliconHub_ChaCha20_2025,
+  author       = {Abhilash M},
+  title        = {OpenSiliconHub: ChaCha20 Hardware Core},
+  year         = {2025},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.17895634},
+  url          = {https://doi.org/10.5281/zenodo.17895634}
+}
+```
 
 ## 📬 Contact / Discussions
 
