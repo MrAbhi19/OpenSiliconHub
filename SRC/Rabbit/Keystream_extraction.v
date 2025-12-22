@@ -1,24 +1,15 @@
-// Rabbit cipher keystream generator
-module keystream_generator (
-    input  wire [31:0] x0,
-    input  wire [31:0] x1,
-    input  wire [31:0] x2,
-    input  wire [31:0] x3,
-    input  wire [31:0] x4,
-    input  wire [31:0] x5,
-    input  wire [31:0] x6,
-    input  wire [31:0] x7,
-    output wire [31:0] s0,
-    output wire [31:0] s1,
-    output wire [31:0] s2,
-    output wire [31:0] s3
+module keystream_extract (
+  input  [31:0] X0, X1, X2, X3, X4, X5, X6, X7,
+  output [127:0] S
 );
 
-    // Each keystream word is derived by XORing one state word
-    // with rotated versions of two others (Rabbit spec)
-    assign s0 = x0 ^ (x5 >> 16) ^ (x3 << 16);
-    assign s1 = x2 ^ (x7 >> 16) ^ (x5 << 16);
-    assign s2 = x4 ^ (x1 >> 16) ^ (x7 << 16);
-    assign s3 = x6 ^ (x3 >> 16) ^ (x1 << 16);
+  assign S[15:0]    = X0[15:0]  ^ X5[31:16];
+  assign S[31:16]   = X0[31:16] ^ X3[15:0];
+  assign S[47:32]   = X2[15:0]  ^ X7[31:16];
+  assign S[63:48]   = X2[31:16] ^ X5[15:0];
+  assign S[79:64]   = X4[15:0]  ^ X1[31:16];
+  assign S[95:80]   = X4[31:16] ^ X7[15:0];
+  assign S[111:96]  = X6[15:0]  ^ X3[31:16];
+  assign S[127:112] = X6[31:16] ^ X1[15:0];
 
 endmodule
