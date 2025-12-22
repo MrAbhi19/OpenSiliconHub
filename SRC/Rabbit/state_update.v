@@ -1,31 +1,35 @@
-// Rabbit cipher state update block
 module state_update (
-    input  wire [31:0] g0,
-    input  wire [31:0] g1,
-    input  wire [31:0] g2,
-    input  wire [31:0] g3,
-    input  wire [31:0] g4,
-    input  wire [31:0] g5,
-    input  wire [31:0] g6,
-    input  wire [31:0] g7,
-    output wire [31:0] x0_next,
-    output wire [31:0] x1_next,
-    output wire [31:0] x2_next,
-    output wire [31:0] x3_next,
-    output wire [31:0] x4_next,
-    output wire [31:0] x5_next,
-    output wire [31:0] x6_next,
-    output wire [31:0] x7_next
+  input         clk,
+  input         rst,
+  input         en,
+  input  [31:0] X0_in, X1_in, X2_in, X3_in,
+                X4_in, X5_in, X6_in, X7_in,
+  input  [31:0] C0, C1, C2, C3, C4, C5, C6, C7,
+  output reg [31:0] X0, X1, X2, X3, X4, X5, X6, X7
 );
 
-    // Each new state word is a sum of g-function outputs with rotations
-    assign x0_next = g0 + {g7[15:0], g7[31:16]} + {g6[15:0], g6[31:16]};
-    assign x1_next = g1 + {g0[15:0], g0[31:16]} + {g7[15:0], g7[31:16]};
-    assign x2_next = g2 + {g1[15:0], g1[31:16]} + {g0[15:0], g0[31:16]};
-    assign x3_next = g3 + {g2[15:0], g2[31:16]} + {g1[15:0], g1[31:16]};
-    assign x4_next = g4 + {g3[15:0], g3[31:16]} + {g2[15:0], g2[31:16]};
-    assign x5_next = g5 + {g4[15:0], g4[31:16]} + {g3[15:0], g3[31:16]};
-    assign x6_next = g6 + {g5[15:0], g5[31:16]} + {g4[15:0], g4[31:16]};
-    assign x7_next = g7 + {g6[15:0], g6[31:16]} + {g5[15:0], g5[31:16]};
+  wire [31:0] G0, G1, G2, G3, G4, G5, G6, G7;
 
+  g_function g0(X0_in, C0, G0);
+  g_function g1(X1_in, C1, G1);
+  g_function g2(X2_in, C2, G2);
+  g_function g3(X3_in, C3, G3);
+  g_function g4(X4_in, C4, G4);
+  g_function g5(X5_in, C5, G5);
+  g_function g6(X6_in, C6, G6);
+  g_function g7(X7_in, C7, G7);
+
+  always @(posedge clk or posedge rst) begin
+    if (rst) begin
+    end else if (en) begin
+      X0 <= G0 + {G7[15:0], G7[31:16]} + {G6[15:0], G6[31:16]};
+      X1 <= G1 + {G0[23:0], G0[31:24]} + G7;
+      X2 <= G2 + {G1[15:0], G1[31:16]} + {G0[15:0], G0[31:16]};
+      X3 <= G3 + {G2[23:0], G2[31:24]} + G1;
+      X4 <= G4 + {G3[15:0], G3[31:16]} + {G2[15:0], G2[31:16]};
+      X5 <= G5 + {G4[23:0], G4[31:24]} + G3;
+      X6 <= G6 + {G5[15:0], G5[31:16]} + {G4[15:0], G4[31:16]};
+      X7 <= G7 + {G6[23:0], G6[31:24]} + G5;
+    end
+  end
 endmodule
