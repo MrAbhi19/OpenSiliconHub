@@ -1,21 +1,10 @@
-// Rabbit cipher g-function as a module
-module G_function (
-    input  wire [31:0] counter,
-    input  wire [31:0] state,
-    output wire [31:0] g_out
+module g_function (
+  input  [31:0] x,
+  input  [31:0] c,
+  output [31:0] g
 );
+  wire [31:0] sum = x + c;
+  wire [63:0] sq  = sum * sum;
 
-    // Intermediate signals
-    wire [31:0] u;
-    wire [63:0] square;
-
-    // Compute u = counter + state
-    assign u = counter + state;
-
-    // Square u (64-bit result)
-    assign square = u * u;
-
-    // XOR upper and lower halves
-    assign g_out = square[63:32] ^ square[31:0];
-
+  assign g = sq[31:0] ^ sq[63:32];
 endmodule
