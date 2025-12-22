@@ -1,168 +1,154 @@
-// Top-level Rabbit keystream generator (pure Verilog-2001, finalized)
-module rabbit(
+module rabbit_top (
   input         clk,
   input         rst,
-  input         en,
-  input         load,           // load initial key/IV state
+  input         load,     // load key and start key setup
+  input         en,       // advance cipher
   input  [127:0] key,
-  input  [63:0]  IV,
-  output [127:0] out,
-  output        done
+  output [127:0] keystream,
+  output        ready     // high when key setup is complete
 );
 
-  // Expand 128-bit key into 8 × 32-bit words (keep as wires)
-  wire [31:0] W0, W1, W2, W3, W4, W5, W6, W7;
-  assign W0 = {key[15:0],  key[63:48]};
-  assign W1 = {key[47:32], key[95:80]};
-  assign W2 = {key[79:64], key[111:96]};
-  assign W3 = {key[111:96], key[127:112]};
-  assign W4 = {key[31:16], key[79:64]};
-  assign W5 = {key[63:48], key[111:96]};
-  assign W6 = {key[95:80], key[15:0]};
-  assign W7 = {key[127:112], key[47:32]};
-
-  // Counter chain signals
-  wire [31:0] C0, C1, C2, C3, C4, C5, C6, C7;
-  wire        carry0, carry1, carry2, carry3, carry4, carry5, carry6, carry7;
-
-  // Initial counter values (key schedule + IV mixing per current design)
-  wire [31:0] init_C0 = {W4[31:16], W4[15:0]} ^ {16'd0, IV[15:0]};
-  wire [31:0] init_C1 = {W5[31:16], W5[15:0]} ^ {16'd0, IV[31:16]};
-  wire [31:0] init_C2 = {W6[31:16], W6[15:0]} ^ {16'd0, IV[47:32]};
-  wire [31:0] init_C3 = {W7[31:16], W7[15:0]} ^ {16'd0, IV[63:48]};
-  wire [31:0] init_C4 = W0;
-  wire [31:0] init_C5 = W1;
-  wire [31:0] init_C6 = W2;
-  wire [31:0] init_C7 = W3;
-
-  // Instantiate 8 counters with distinct constants (A0..A7)
-  // Pattern: 4D34D34D, D34D34D3, 34D34D34 repeating
-  counter #(.A(32'h4D34D34D)) c0(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C0), .carry_in(1'b0),
-    .c(C0), .carry_out(carry0)
-  );
-
-  counter #(.A(32'hD34D34D3)) c1(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C1), .carry_in(carry0),
-    .c(C1), .carry_out(carry1)
-  );
-
-  counter #(.A(32'h34D34D34)) c2(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C2), .carry_in(carry1),
-    .c(C2), .carry_out(carry2)
-  );
-
-  counter #(.A(32'h4D34D34D)) c3(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C3), .carry_in(carry2),
-    .c(C3), .carry_out(carry3)
-  );
-
-  counter #(.A(32'hD34D34D3)) c4(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C4), .carry_in(carry3),
-    .c(C4), .carry_out(carry4)
-  );
-
-  counter #(.A(32'h34D34D34)) c5(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C5), .carry_in(carry4),
-    .c(C5), .carry_out(carry5)
-  );
-
-  counter #(.A(32'h4D34D34D)) c6(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C6), .carry_in(carry5),
-    .c(C6), .carry_out(carry6)
-  );
-
-  counter #(.A(32'hD34D34D3)) c7(
-    .clk(clk), .rst(rst), .en(en), .load(load),
-    .init_val(init_C7), .carry_in(carry6),
-    .c(C7), .carry_out(carry7)
-  );
-
-  // State registers (X0–X7)
+  // ------------------------------------------------------------
+  // Internal state registers
+  // ------------------------------------------------------------
   reg [31:0] X0, X1, X2, X3, X4, X5, X6, X7;
+  reg [31:0] C0, C1, C2, C3, C4, C5, C6, C7;
+  reg        carry;
 
-  // G-function outputs
-  wire [31:0] g0, g1, g2, g3, g4, g5, g6, g7;
+  // ------------------------------------------------------------
+  // Wires between modules
+  // ------------------------------------------------------------
+  wire [31:0] X0_k, X1_k, X2_k, X3_k, X4_k, X5_k, X6_k, X7_k;
+  wire [31:0] C0_k, C1_k, C2_k, C3_k, C4_k, C5_k, C6_k, C7_k;
+  wire        carry_k;
 
-  // Instantiate 8 g-functions
-  G_function g_inst0(.counter(C0), .state(X0), .g_out(g0));
-  G_function g_inst1(.counter(C1), .state(X1), .g_out(g1));
-  G_function g_inst2(.counter(C2), .state(X2), .g_out(g2));
-  G_function g_inst3(.counter(C3), .state(X3), .g_out(g3));
-  G_function g_inst4(.counter(C4), .state(X4), .g_out(g4));
-  G_function g_inst5(.counter(C5), .state(X5), .g_out(g5));
-  G_function g_inst6(.counter(C6), .state(X6), .g_out(g6));
-  G_function g_inst7(.counter(C7), .state(X7), .g_out(g7));
+  wire [31:0] C0_n, C1_n, C2_n, C3_n, C4_n, C5_n, C6_n, C7_n;
+  wire        carry_n;
 
-  // Next-state wires from state_update
-  wire [31:0] X0_next, X1_next, X2_next, X3_next;
-  wire [31:0] X4_next, X5_next, X6_next, X7_next;
+  wire [31:0] X0_n, X1_n, X2_n, X3_n, X4_n, X5_n, X6_n, X7_n;
 
-  // Instantiate the state_update block
-  state_update u_state_update (
-    .g0(g0), .g1(g1), .g2(g2), .g3(g3),
-    .g4(g4), .g5(g5), .g6(g6), .g7(g7),
-    .x0_next(X0_next), .x1_next(X1_next),
-    .x2_next(X2_next), .x3_next(X3_next),
-    .x4_next(X4_next), .x5_next(X5_next),
-    .x6_next(X6_next), .x7_next(X7_next)
+  // ------------------------------------------------------------
+  // Control
+  // ------------------------------------------------------------
+  reg [2:0] iter;
+  reg       ready_r;
+
+  assign ready = ready_r;
+
+  // ------------------------------------------------------------
+  // Key setup
+  // ------------------------------------------------------------
+  key_setup KS (
+    .clk(clk),
+    .rst(rst),
+    .load(load),
+    .key(key),
+    .X0(X0_k), .X1(X1_k), .X2(X2_k), .X3(X3_k),
+    .X4(X4_k), .X5(X5_k), .X6(X6_k), .X7(X7_k),
+    .C0(C0_k), .C1(C1_k), .C2(C2_k), .C3(C3_k),
+    .C4(C4_k), .C5(C5_k), .C6(C6_k), .C7(C7_k),
+    .carry(carry_k)
   );
 
-  // State register update
-  always @(posedge clk or posedge rst) begin
-    if (rst) begin
-      // Initialize from key schedule
-      X0 <= W0; X1 <= W1; X2 <= W2; X3 <= W3;
-      X4 <= W4; X5 <= W5; X6 <= W6; X7 <= W7;
-    end else if (load) begin
-      // Reinitialize (counters already mix IV on load)
-      X0 <= W0; X1 <= W1; X2 <= W2; X3 <= W3;
-      X4 <= W4; X5 <= W5; X6 <= W6; X7 <= W7;
-    end else if (en) begin
-      // Advance the Rabbit state
-      X0 <= X0_next; X1 <= X1_next;
-      X2 <= X2_next; X3 <= X3_next;
-      X4 <= X4_next; X5 <= X5_next;
-      X6 <= X6_next; X7 <= X7_next;
-    end
-  end
-
-  // Keystream words via dedicated module
-  wire [31:0] S0, S1, S2, S3;
-  keystream_generator u_keystream (
-    .x0(X0), .x1(X1), .x2(X2), .x3(X3),
-    .x4(X4), .x5(X5), .x6(X6), .x7(X7),
-    .s0(S0), .s1(S1), .s2(S2), .s3(S3)
+  // ------------------------------------------------------------
+  // Counter update
+  // ------------------------------------------------------------
+  counter_update CU (
+    .clk(clk),
+    .rst(rst),
+    .en(en),
+    .carry_in(carry),
+    .C0_in(C0), .C1_in(C1), .C2_in(C2), .C3_in(C3),
+    .C4_in(C4), .C5_in(C5), .C6_in(C6), .C7_in(C7),
+    .carry_out(carry_n),
+    .C0(C0_n), .C1(C1_n), .C2(C2_n), .C3(C3_n),
+    .C4(C4_n), .C5(C5_n), .C6(C6_n), .C7(C7_n)
   );
 
-  // Warm-up iteration counter for done signal (assert after 4 iterations)
-  reg [2:0] init_count;
-  reg       done_reg;
+  // ------------------------------------------------------------
+  // State update
+  // ------------------------------------------------------------
+  state_update SU (
+    .clk(clk),
+    .rst(rst),
+    .en(en),
+    .X0_in(X0), .X1_in(X1), .X2_in(X2), .X3_in(X3),
+    .X4_in(X4), .X5_in(X5), .X6_in(X6), .X7_in(X7),
+    .C0(C0_n), .C1(C1_n), .C2(C2_n), .C3(C3_n),
+    .C4(C4_n), .C5(C5_n), .C6(C6_n), .C7(C7_n),
+    .X0(X0_n), .X1(X1_n), .X2(X2_n), .X3(X3_n),
+    .X4(X4_n), .X5(X5_n), .X6(X6_n), .X7(X7_n)
+  );
+
+  // ------------------------------------------------------------
+  // Keystream extraction
+  // ------------------------------------------------------------
+  keystream_extract KE (
+    .X0(X0), .X1(X1), .X2(X2), .X3(X3),
+    .X4(X4), .X5(X5), .X6(X6), .X7(X7),
+    .S(keystream)
+  );
+
+  // ------------------------------------------------------------
+  // Sequential control and state registers
+  // ------------------------------------------------------------
   always @(posedge clk or posedge rst) begin
     if (rst) begin
-      init_count <= 3'd0;
-      done_reg   <= 1'b0;
-    end else if (load) begin
-      init_count <= 3'd0;
-      done_reg   <= 1'b0;
-    end else if (en && !done_reg) begin
-      if (init_count == 3'd3) begin
-        done_reg <= 1'b1;  // after 4 iterations (0,1,2,3)
-      end else begin
-        init_count <= init_count + 1'b1;
+      iter    <= 3'd0;
+      ready_r <= 1'b0;
+      carry   <= 1'b0;
+    end else begin
+
+      // Load key
+      if (load) begin
+        X0 <= X0_k; X1 <= X1_k; X2 <= X2_k; X3 <= X3_k;
+        X4 <= X4_k; X5 <= X5_k; X6 <= X6_k; X7 <= X7_k;
+
+        C0 <= C0_k; C1 <= C1_k; C2 <= C2_k; C3 <= C3_k;
+        C4 <= C4_k; C5 <= C5_k; C6 <= C6_k; C7 <= C7_k;
+
+        carry   <= carry_k;
+        iter    <= 3'd0;
+        ready_r <= 1'b0;
+      end
+
+      // Key setup iterations
+      else if (en && !ready_r) begin
+        X0 <= X0_n; X1 <= X1_n; X2 <= X2_n; X3 <= X3_n;
+        X4 <= X4_n; X5 <= X5_n; X6 <= X6_n; X7 <= X7_n;
+
+        C0 <= C0_n; C1 <= C1_n; C2 <= C2_n; C3 <= C3_n;
+        C4 <= C4_n; C5 <= C5_n; C6 <= C6_n; C7 <= C7_n;
+
+        carry <= carry_n;
+        iter  <= iter + 3'd1;
+
+        // After 4 iterations: counter reinitialization
+        if (iter == 3'd3) begin
+          C0 <= C0_n ^ X4;
+          C1 <= C1_n ^ X5;
+          C2 <= C2_n ^ X6;
+          C3 <= C3_n ^ X7;
+          C4 <= C4_n ^ X0;
+          C5 <= C5_n ^ X1;
+          C6 <= C6_n ^ X2;
+          C7 <= C7_n ^ X3;
+
+          ready_r <= 1'b1;
+        end
+      end
+
+      // Normal keystream generation
+      else if (en && ready_r) begin
+        X0 <= X0_n; X1 <= X1_n; X2 <= X2_n; X3 <= X3_n;
+        X4 <= X4_n; X5 <= X5_n; X6 <= X6_n; X7 <= X7_n;
+
+        C0 <= C0_n; C1 <= C1_n; C2 <= C2_n; C3 <= C3_n;
+        C4 <= C4_n; C5 <= C5_n; C6 <= C6_n; C7 <= C7_n;
+
+        carry <= carry_n;
       end
     end
   end
-  assign done = done_reg;
-
-  // Concatenate to 128-bit output, gated until initialization done
-  assign out = done ? {S0, S1, S2, S3} : 128'd0;
 
 endmodule
