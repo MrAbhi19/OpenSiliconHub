@@ -30,12 +30,12 @@ Whether you’re a beginner exploring Verilog or an experienced designer, your c
 
 ---
 
-## ⚡ Core Examples
+## Core Examples
 
 We focus on building **powerful hardware cores** that can serve as reusable building blocks.  
 Here’s a snapshot of what we have right now and what we might consider building later:
 
-### 🔐 Cryptographic Cores
+###  Cryptographic Cores
 - **ChaCha20** stream cipher   [➡️](./SRC/Chacha20/)
 - **AES** block cipher   [➡️](./SRC/AES/)
 - **PRNGs** — Multiple modules including PCG64-DXSM, SplitMix64, philox-4*32-10, and 5 other PRNG variants [➡️](./SRC/)
@@ -45,7 +45,7 @@ Here’s a snapshot of what we have right now and what we might consider buildin
 
 ---
 
-### 🎵 DSP Cores
+###  DSP Cores
 **What we have right now:**
 - FIR, IIR filter modules
 - FFT (Fast Fourier Transform) prototype
@@ -53,7 +53,7 @@ Here’s a snapshot of what we have right now and what we might consider buildin
 
 ---
 
-### 🧠 Neural Acceleration
+###  Neural Acceleration
 **What we have right now:**
 - Basic matrix multiplication core
 - Convolutional layer accelerators
@@ -63,7 +63,7 @@ Here’s a snapshot of what we have right now and what we might consider buildin
 
 ---
 
-## 🤝 Contribution Guidelines
+##  Contribution Guidelines
 
 Read the contribution guide here:  
 👉 [Contribution Guidelines](./Contribution.md)
@@ -73,7 +73,7 @@ If you run into any issues or want help contributing, feel free to open a Discus
 
 ---
 
-## 🧰 Tools Used
+##  Tools Used
 
 ### Software
 - [Icarus Verilog](http://iverilog.icarus.com/) — Simulation  
@@ -89,7 +89,7 @@ If you run into any issues or want help contributing, feel free to open a Discus
 ---
 ---
 
-## 📖 Citation
+##  Citation
 
 If you use this work in your research, please cite it using the Zenodo DOI:
 
@@ -107,13 +107,13 @@ If you use this work in your research, please cite it using the Zenodo DOI:
 }
 ```
 
-## 📬 Contact / Discussions
+##  Contact / Discussions
 
 For module requests, ideas, improvements, or collaboration, use the **GitHub Discussions** section of the repository.
 
 ---
 
-## 📜 License
+##  License
 This project is licensed under the MIT License — see [LICENSE](./LICENSE) for details.
 
 ---
