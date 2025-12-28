@@ -68,7 +68,6 @@ Here’s a snapshot of what we have right now and what we might consider buildin
 ---
 
 ###  DSP Cores
-**What we have right now:**
 - FIR, IIR filter modules
 - FFT (Fast Fourier Transform) prototype
 - Convolution engines for signal/image processing
@@ -76,7 +75,6 @@ Here’s a snapshot of what we have right now and what we might consider buildin
 ---
 
 ###  Neural Acceleration
-**What we have right now:**
 - Basic matrix multiplication core
 - Convolutional layer accelerators
 - Activation function modules (ReLU, Sigmoid, Tanh)
