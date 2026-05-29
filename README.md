@@ -52,6 +52,21 @@ respective core directories.
 
 ---
 
+## Learning Goals
+By exploring this repository, users can:
+- Understand basic RTL design concepts
+- Practice Verilog/SystemVerilog syntax
+- Learn simple module structuring and simulation
+
+---
+
+## Supported Technologies
+- Verilog HDL
+- SystemVerilog
+- Basic RTL design concepts
+
+---
+
 ## Core Examples
 
 We focus on building **powerful hardware cores** that can serve as reusable building blocks.  
